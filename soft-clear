@@ -36,8 +36,11 @@ sub on_init {
 sub soft_clear {
     my ($self) = @_;
 
-    foreach my $i (1..$self->nrow-1) {
-	$self->scr_add_lines("\r\n");
+    if ($self->current_screen == 0) {
+	# Do not write when on secondary screen
+	foreach my $i (1..$self->nrow-1) {
+	    $self->scr_add_lines("\r\n");
+	}
     }
     $self->key_press (urxvt::ControlMask, 46);
 
