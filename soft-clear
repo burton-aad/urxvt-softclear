@@ -1,5 +1,17 @@
 #! /usr/bin/perl
 
+=head1 NAME
+
+soft-clear - implement clear that does not erase the latest lines on screen
+
+=head1 DESCRIPTION
+
+Calling the 'clear' command with C<C-l> make the more recent lines on
+screen to be erased. The new command 'soft-clear', called with C<C-L>
+(see the uppercase L) will first add lines to fill the screen and
+call the clear command.
+
+=cut
 
 sub on_action {
     my ($self, $action) = @_;
