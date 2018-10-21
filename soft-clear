@@ -1,0 +1,33 @@
+#! /usr/bin/perl
+
+
+sub on_action {
+    my ($self, $action) = @_;
+
+    $action eq "clear"
+	and $self->soft_clear;
+
+    ()
+}
+
+sub on_init {
+    my ($self) = @_;
+
+    my $hotkey = "C-L";
+
+    $self->bind_action ($hotkey, "%:clear")
+	or warn "unable to register '$hotkey' as soft clear hotkey\n";
+
+    ()
+}
+
+sub soft_clear {
+    my ($self) = @_;
+
+    foreach my $i (1..$self->nrow-1) {
+	$self->scr_add_lines("\r\n");
+    }
+    $self->key_press (urxvt::ControlMask, 46);
+
+    ()
+}
