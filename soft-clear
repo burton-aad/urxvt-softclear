@@ -39,11 +39,14 @@ sub soft_clear {
     # Do not write when on secondary screen
     if ($self->current_screen == 0) {
 	my $line = $self->line(($self->screen_cur)[0]);
+	my $line_string = $self->special_decode($line->t());
 	foreach my $i (1..$self->nrow-1-($line->end-$line->beg)) {
 	    $self->scr_add_lines("\r\n");
 	}
+	$self->cmd_parse ("\033[1;1H\033[0J");
+	$self->scr_add_lines($line_string);
     }
-    $self->key_press (urxvt::ControlMask, 46);
+    #$self->key_press (urxvt::ControlMask, 46);
 
     ()
 }
