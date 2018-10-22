@@ -25,7 +25,7 @@ sub on_action {
 sub on_init {
     my ($self) = @_;
 
-    my $hotkey = "C-L";
+    my $hotkey = "C-l";
 
     $self->bind_action ($hotkey, "%:clear")
 	or warn "unable to register '$hotkey' as soft clear hotkey\n";
