@@ -46,6 +46,10 @@ sub soft_clear {
 	}
 	$self->screen_cur($cur_r, $cur_c);
     }
+    else {
+	# Send the C-l on secondary screen
+	$self->tt_write("\014")
+    }
 
     ()
 }
