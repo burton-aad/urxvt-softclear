@@ -38,12 +38,13 @@ sub soft_clear {
 
     # Do not write when on secondary screen
     if ($self->current_screen == 0) {
-	my $line = $self->line(($self->screen_cur)[0]);
-	my $line_size = $line->end-$line->beg;
-	foreach my $i (1..$self->nrow-1-$line_size) {
+	my ($cur_r,$cur_c) = $self->screen_cur;
+	my $line = $self->line($cur_r);
+	$cur_r -= $line->beg;
+	foreach my $i (1..$self->nrow-$cur_r-1) {
 	    $self->scr_add_lines("\r\n");
 	}
-	$self->screen_cur($line_size, $line->l);
+	$self->screen_cur($cur_r, $cur_c);
     }
 
     ()
