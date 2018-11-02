@@ -14,42 +14,42 @@ call the clear command.
 =cut
 
 sub on_action {
-    my ($self, $action) = @_;
+	my ($self, $action) = @_;
 
-    $action eq "clear"
-	and $self->soft_clear;
+	$action eq "clear"
+		and $self->soft_clear;
 
-    ()
+	()
 }
 
 sub on_init {
-    my ($self) = @_;
+	my ($self) = @_;
 
-    my $hotkey = "C-l";
+	my $hotkey = "C-l";
 
-    $self->bind_action ($hotkey, "%:clear")
-	or warn "unable to register '$hotkey' as soft clear hotkey\n";
+	$self->bind_action ($hotkey, "%:clear")
+		or warn "unable to register '$hotkey' as soft clear hotkey\n";
 
-    ()
+	()
 }
 
 sub soft_clear {
-    my ($self) = @_;
+	my ($self) = @_;
 
-    # Do not write when on secondary screen
-    if ($self->current_screen == 0) {
-	my ($cur_r,$cur_c) = $self->screen_cur;
-	my $line = $self->line($cur_r);
-	$cur_r -= $line->beg;
-	foreach my $i (1..$self->nrow-$cur_r-1) {
-	    $self->scr_add_lines("\r\n");
+	if ($self->current_screen == 0) {
+		# Do not write when on secondary screen
+		my ($cur_r,$cur_c) = $self->screen_cur;
+		my $line = $self->line($cur_r);
+		$cur_r -= $line->beg;
+		foreach my $i (1..$self->nrow-$cur_r-1) {
+			$self->scr_add_lines("\r\n");
+		}
+		$self->screen_cur($cur_r, $cur_c);
 	}
-	$self->screen_cur($cur_r, $cur_c);
-    }
-    else {
-	# Send the C-l on secondary screen
-	$self->tt_write("\014")
-    }
+	else {
+		# Send the C-l on secondary screen
+		$self->tt_write("\014")
+	}
 
-    ()
+	()
 }
