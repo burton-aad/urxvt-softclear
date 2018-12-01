@@ -44,6 +44,8 @@ sub soft_clear {
 		foreach my $i (1..$self->nrow-$cur_r-1) {
 			$self->scr_add_lines("\r\n");
 		}
+		$self->screen_cur($line->end-$line->beg+1, 0);
+		$self->cmd_parse("\033[0J");
 		$self->screen_cur($cur_r, $cur_c);
 	}
 	else {
